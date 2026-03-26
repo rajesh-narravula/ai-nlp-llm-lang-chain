@@ -17,7 +17,7 @@ input_prompt = messate_template.invoke({'pet':'dog'})
 
 print(input_prompt)
 
-chat = ChatOpenAI(model='gpt-4',
+chat = ChatOpenAI(model='gpt-4o-mini',
                   seed=365,
                   temperature=0,
                   api_key=config.api_key,
