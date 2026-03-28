@@ -29,26 +29,15 @@ page_character_split = page_character_splitter.split_documents(page_md_split)
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small", api_key=config.api_key)
 
-vector_store = Chroma.from_documents(documents=page_character_split, 
-                                     embedding = embeddings, 
-                                     persist_directory="./chroma_db")
-
-
 vector_store_from_directory = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
 
 # Create a unique ID based on the content
 def generate_id(doc):    
     return hashlib.md5(doc.page_content.encode()).hexdigest()
 
-ids = [generate_id(doc) for doc in page_character_split]
+ids = [generate_id(document) for document in page_character_split]
 
 vector_store_from_directory.add_documents(page_character_split, ids=ids)
 
-vector_store_from_directory.add_documents(page_character_split)
-
 all_ids = vector_store_from_directory.get()['ids']
-print(all_ids)
-
-
-
-
+print(len(all_ids))
